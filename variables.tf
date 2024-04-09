@@ -102,8 +102,13 @@ variable "use_launch_template" {
   type    = bool
 }
 
+variable "user_data_replace_on_change" {
+  default = true
+  type = bool
+}
+
 variable "use_user_data" {
-  default = null
+  default = "userdata.sh"
   type = string
 }
 variable "tenancy" {

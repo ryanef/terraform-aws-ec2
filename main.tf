@@ -5,10 +5,10 @@ resource "aws_instance" "this" {
   iam_instance_profile        = var.iam_instance_profile
   instance_type               = var.instance_type
   key_name                    = var.key_name
-  user_data                   = var.use_user_data != null ? filebase64("${path.module}/userdata.sh") : null
-
+  user_data                   = var.use_user_data != null ? filebase64("${path.module}/${var.use_user_data}") : null
+  user_data_replace_on_change = var.user_data_replace_on_change
   monitoring      = var.monitoring
-  security_groups = var.security_groups
+  vpc_security_group_ids = var.security_groups
   subnet_id       = var.subnet_id
   tenancy         = var.tenancy
 
