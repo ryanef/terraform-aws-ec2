@@ -104,7 +104,7 @@ variable "use_launch_template" {
 
 variable "use_user_data" {
   default = null
-  type = bool
+  type = string
 }
 variable "tenancy" {
   type    = string
