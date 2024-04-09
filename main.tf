@@ -6,6 +6,16 @@ resource "aws_instance" "this" {
   instance_type = var.instance_type
   key_name = var.key_name
 
+  instance_market_options {
+    market_type = "spot"
+
+    spot_options {
+    instance_interruption_behavior = var.instance_interruption_behavior
+    max_price = var.max_price
+    spot_instance_type = var.spot_instance_type
+    valid_until = var.valid_until
+    }
+  }
   monitoring = var.monitoring
   security_groups = var.security_groups
   subnet_id = var.subnet_id
@@ -25,6 +35,6 @@ resource "aws_instance" "this" {
   
 
   tags = {
-    Name = "${var.vpc_name}-${var.environment}-ec2"
+    Name = "${var.vpc_name}-${var.environment}-${var.instance_name}"
   }
 }
