@@ -53,7 +53,7 @@ variable "instance_type" {
 }
 variable "instance_interruption_behavior" {
   type        = string
-  default     = "terminate"
+  default     = null
   description = "possible values: hibernate, stop, terminate"
 }
 variable "key_name" {
@@ -72,9 +72,10 @@ variable "launch_template" {
   description = "version default is $Default. could be a specific number or $Latest"
 }
 
+
 variable "max_price" {
   type    = string
-  default = "0.01"
+  default = null
 }
 variable "monitoring" {
   default = false
@@ -88,7 +89,8 @@ variable "security_groups" {
 
 variable "spot_instance_type" {
   type        = string
-  default     = "one-time"
+  # default     = "one-time"
+  default     = null
   description = "possible values: one-time, persistent"
 }
 
@@ -102,8 +104,12 @@ variable "use_launch_template" {
   type    = bool
 }
 
+variable "use_spot" {
+  type = bool
+  default = true
+}
 variable "use_user_data" {
-  default = null
+  default = "example.sh"
   type = string
 }
 variable "tenancy" {

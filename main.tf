@@ -5,7 +5,7 @@ resource "aws_instance" "this" {
   iam_instance_profile        = var.iam_instance_profile
   instance_type               = var.instance_type
   key_name                    = var.key_name
-  user_data                   = var.use_user_data != null ? filebase64("${path.module}/userdata.sh") : null
+  user_data                   = var.use_user_data != null ? filebase64(var.use_user_data)  : null
 
   monitoring      = var.monitoring
   security_groups = var.security_groups
@@ -13,7 +13,7 @@ resource "aws_instance" "this" {
   tenancy         = var.tenancy
 
   instance_market_options {
-    market_type = "spot"
+    market_type = null
 
     spot_options {
       instance_interruption_behavior = var.instance_interruption_behavior
@@ -21,8 +21,8 @@ resource "aws_instance" "this" {
       spot_instance_type             = var.spot_instance_type
       valid_until                    = var.valid_until
     }
-
   }
+  
   private_dns_name_options {
     enable_resource_name_dns_a_record    = var.enable_resource_name_dns_a_record
     enable_resource_name_dns_aaaa_record = var.enable_resource_name_dns_aaaa_record
@@ -120,5 +120,6 @@ resource "aws_launch_template" "foo" {
     }
   }
 
-  user_data = var.use_user_data != null ? filebase64("${path.module}/userdata.sh") : null
+  user_data = var.use_user_data != null ? filebase64(var.use_user_data) : null
 }
+
