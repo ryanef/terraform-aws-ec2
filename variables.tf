@@ -109,8 +109,9 @@ variable "use_spot" {
   default = true
 }
 variable "use_user_data" {
-  default = "example.sh"
+  default = null
   type = string
+  description = "local file name of user data script"
 }
 variable "tenancy" {
   type    = string
