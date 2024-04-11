@@ -2,7 +2,7 @@ resource "aws_instance" "this" {
   ami                         = var.ami
   associate_public_ip_address = var.associate_public_ip_address
   availability_zone           = var.availability_zone
-  iam_instance_profile        = var.iam_instance_profile
+  iam_instance_profile        = aws_iam_instance_profile.instance.id
   instance_type               = var.instance_type
   key_name                    = var.key_name
   user_data                   = var.use_user_data != null ? filebase64(var.use_user_data)  : null
@@ -38,8 +38,35 @@ resource "aws_instance" "this" {
 
   tags = {
     Name = "${var.vpc_name}-${var.environment}-${var.instance_name}"
+    Kube = "${var.instance_name}"
   }
 }
+
+resource "aws_iam_role_policy" "test_policy" {
+  name = "${var.vpc_name}-${var.environment}-${var.instance_name}-instanceprofile"
+  role = aws_iam_role.instancerole.id
+  policy = data.aws_iam_policy_document.instanceprofile.json
+
+}
+
+
+resource "aws_iam_policy" "instanceprofile" {
+  name   = "${var.vpc_name}-${var.environment}-${var.instance_name}-instanceprofile"
+
+  policy = data.aws_iam_policy_document.instanceprofile.json
+}
+
+resource "aws_iam_role" "instancerole" {
+  name = "${var.vpc_name}-${var.environment}-${var.instance_name}-instanceprofile"
+
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+resource "aws_iam_instance_profile" "instance" {
+  name = "${var.vpc_name}-${var.environment}-${var.instance_name}-instanceprofile"
+  role = aws_iam_role.instancerole.name
+}
+
+
 
 resource "aws_launch_template" "foo" {
   count = var.use_launch_template ? 1 : 0
