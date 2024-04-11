@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "instanceprofile" {
   statement {
     effect = "Allow"
     resources = ["*"]
-    actions = ["ec2:*", "ecr:*", "autoscaling:*", "elasticloadbalancing:*", "tag:*" ]
+    actions = ["ec2:*", "ecr:*", "autoscaling:*", "elasticloadbalancing:*", "tag:*", "ssm:GetParameter", "kms:Decrypt" ]
   }
 
 }
